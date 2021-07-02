@@ -1,0 +1,7 @@
+# 是否自动检测文件修改并重载对应的脚本
+livereload: yes
+
+# 提示信息
+# 请用 § 作为颜色符号
+messages:
+  noperm: "§aMomoCommand §9>> §c使用该指令需要权限 §e$perm"

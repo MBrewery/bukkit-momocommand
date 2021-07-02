@@ -1,0 +1,41 @@
+plugins {
+  id 'org.jetbrains.kotlin.jvm' version '1.5.20'
+  id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+group 'moe.kouyou'
+version '1.0.0'
+
+archivesBaseName = 'momo-command'
+
+repositories {
+  mavenLocal()
+  maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+  maven { url 'https://hub.spigotmc.org/nexus/content/repositories/public/' }
+}
+
+dependencies {
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.20'
+  compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+}
+
+sourceSets {
+  main {
+    kotlin {
+      srcDir 'src/code'
+    }
+    resources {
+      srcDir 'src/resources'
+    }
+  }
+}
+
+shadowJar {
+  dependencies {
+    include dependency('org.jetbrains.kotlin:kotlin-stdlib:1.5.20')
+  }
+  relocate 'kotlin', '__lib.momocommand.ktstd'
+  minimize()
+}
+
+build.dependsOn shadowJar

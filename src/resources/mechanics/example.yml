@@ -1,0 +1,28 @@
+# 请按照格式写, 一个文件里可以有无数个 mechanic (机制)
+
+# javascript 机制示例
+-
+  # 机制名称
+  name: JsExample
+  # 机制类型, 有 cmdgroup (命令组), javascript
+  type: javascript
+  # js 中可以使用一些预定义变量 具体参阅 wiki
+  # 使用 | 使后面能直接写多行的字符串
+  text: |
+    print("hello, javascript")
+    print("hello, " + $s.getName())
+
+# 命令组 机制示例
+-
+  name: CmdExample
+  # 命令每行一条 可以使用变量 具体参阅 wiki
+  text: |
+    say hello, world
+    say hello, $s
+  type: cmdgroup
+-
+  text: |
+    print("whooooha!")
+    print("you are a " + $senderType + "!")
+  type: javascript
+  name: exm2

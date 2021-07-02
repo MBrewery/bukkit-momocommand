@@ -1,0 +1,13 @@
+name: MomoCommand
+main: moe.kouyou.momocommand.MomoCommand
+version: 1.0.0
+author: kouyoux
+
+commands:
+  momocommand:
+    aliases:
+      - mcmd
+
+permissions:
+  momocommand.admin:
+    default: op

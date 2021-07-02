@@ -1,0 +1,14 @@
+-
+  # 指令的名称 这里是 example, 则会创建指令 /example
+  name: example
+  # 指令的别名 这里指定了 exa 和 axe, 则使用 /exa, /axe 都能触发该指令
+  aliases:
+    - exa
+    - axe
+  # 执行指令需要的权限, null为没有
+  permission: null
+  # 执行指令后执行的机制组
+  mechanics:
+    - CmdExample
+    - JsExample
+    - exm2
