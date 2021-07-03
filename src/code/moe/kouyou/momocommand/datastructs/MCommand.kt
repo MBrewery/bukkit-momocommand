@@ -7,7 +7,7 @@ import moe.kouyou.momocommand.utils.registerCommand
 
 class MCommandData() {
   lateinit var name: String
-  lateinit var aliases: MutableList<String>
+  var aliases: MutableList<String>? = null
   var permission: String? = null
   lateinit var mechanics: MutableList<String>
   fun toMCommand(): MCommand {
@@ -22,7 +22,7 @@ class MCommand(val cmdLabel: String, val perm: String?, val alias: MutableList<S
     if(!sender.isOp) {
       perm?.also {
         if(!sender.hasPermission(perm)) {
-          sender.sendMessage(ConfigManager.msgNoPerm.replace("\$perm", perm))
+          sender.sendMessage(ConfigManager.messages("no-permission").replace("\$perm", perm))
           return@execute true
         }
       }

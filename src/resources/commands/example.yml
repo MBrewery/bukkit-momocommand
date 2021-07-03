@@ -11,4 +11,7 @@
   mechanics:
     - CmdExample
     - JsExample
-    - exm2
+-
+  name: another
+  mechanics:
+    - another

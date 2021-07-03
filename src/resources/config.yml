@@ -1,7 +1,10 @@
 # 是否自动检测文件修改并重载对应的脚本
-livereload: yes
+live-reload: yes
 
 # 提示信息
 # 请用 § 作为颜色符号
 messages:
-  noperm: "§aMomoCommand §9>> §c使用该指令需要权限 §e$perm"
+  no-permission: "§aMomoCommand §9>> §c使用该指令需要权限 §e$perm"
+  not-enough-args: "§aMomoCommand §9>> §c参数不够! 使用 /mcmd help 获取帮助"
+  invalid-args: "§aMomoCommand §9>> §c参数错误! 使用 /mcmd help 获取帮助"
+  executing-mechanic: "§aMomoCommand §9>> §a正在执行机制 §e$mechanic"

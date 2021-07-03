@@ -9,16 +9,22 @@ import org.yaml.snakeyaml.Yaml
 import java.io.File
 
 object ConfigManager {
-  var liveReload: Boolean = false
+  class Config {
+    lateinit var liveReload: Boolean
+    lateinit var messages: MutableMap<String, String>
+  }
 
-  lateinit var msgNoPerm: String
+  lateinit var config: Config
+
+  fun messages(key: String): String = config.messages[key]!!
 
   fun loadConfig() {
     val f = File(pluginInst.dataFolder, "config.yml")
     if(!f.exists()) pluginInst.saveResource("config.yml", true)
-    val y = YamlConfiguration.loadConfiguration(f)
-    liveReload = y.getBoolean("livereload")
-    msgNoPerm = y.getString("messages.noperm")
+    val br = f.bufferedReader()
+    val cfg = br.readText()
+    br.close()
+    config = Yaml(Constructor(Config::class.java)).load(cfg) as Config
   }
 }
 

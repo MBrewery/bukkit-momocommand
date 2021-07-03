@@ -79,7 +79,8 @@ class JsMechanic(name: String, code: String) : Mechanic(name) {
         "\$s" to sender,
         "\$sender" to sender,
         "\$isOp" to sender.isOp,
-        "\$senderType" to sender.javaClass.simpleName
+        "\$senderType" to sender.javaClass.simpleName,
+        "\$cmd" to label.lowercase(),
       )
     )
     if (sender is Entity) {

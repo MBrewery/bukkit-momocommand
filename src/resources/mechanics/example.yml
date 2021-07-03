@@ -24,5 +24,7 @@
   text: |
     print("whooooha!")
     print("you are a " + $senderType + "!")
+    print("your name is " + $s.getName() + "!")
+    print("you are executing command " + $cmd + "!")
+  name: another
   type: javascript
-  name: exm2
