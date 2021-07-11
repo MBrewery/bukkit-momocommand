@@ -14,7 +14,11 @@ object MainCommand: Command("momocommand", "", "", mutableListOf("mcmd")) {
     }
     when(args[0]) {
       "help", "h" -> {
-
+        s.sendMessage("§aMomoCommand §9>> §a正在显示帮助")
+        s.sendMessage("/momocommand 或 /mcmd - 插件主要命令")
+        s.sendMessage("/mcmd rl 或 /mcmd reload - 重载插件")
+        s.sendMessage("/mcmd em <机制名称> [参数] - 直接执行机制")
+        s.sendMessage("/mcmd h 或 /mcmd help - 显示插件帮助")
       }
       "execute-mechanic", "em" -> {
         if(args.size < 2) {
