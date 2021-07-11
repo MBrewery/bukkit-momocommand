@@ -1,5 +1,7 @@
 package moe.kouyou.momocommand.livereload
 
+import moe.kouyou.momocommand.pluginInst
+import moe.kouyou.momocommand.ConfigManager
 import moe.kouyou.momocommand.MCommandManager
 import moe.kouyou.momocommand.MechanicManager
 import org.bukkit.scheduler.BukkitRunnable
@@ -27,6 +29,14 @@ object ReloadTask : BukkitRunnable() {
         MCommandManager.unloadCommands()
         MCommandManager.loadCommands()
       }
+    }
+    val f = File(pluginInst.dataFolder, "config.yml")
+    val lm = f.lastModified()
+    if(f !in lms) {
+      lms[f] = lm
+    } else if(lms[f] != lm) {
+      lms[f] = lm
+      ConfigManager.loadConfig()
     }
   }
 }
