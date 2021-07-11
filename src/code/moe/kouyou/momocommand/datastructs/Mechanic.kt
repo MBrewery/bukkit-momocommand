@@ -4,16 +4,20 @@ import moe.kouyou.momocommand.utils.getEngine
 import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.entity.*
+import javax.script.Bindings
 import javax.script.Compilable
+import javax.script.CompiledScript
+import javax.script.ScriptEngine
 
 class MechanicData() {
   lateinit var name: String
   lateinit var type: String
   lateinit var text: String
+  var sender: String? = null
 
   fun toMechanic(): Mechanic {
     return when (type.lowercase()) {
-      "cmd", "cmdgroup" -> CmdGroupMechanic(name, text)
+      "cmd", "cmdgroup" -> CmdGroupMechanic(name, text, sender)
       "js", "javascript" -> JsMechanic(name, text)
       else -> throw IllegalArgumentException()
     }
@@ -21,19 +25,27 @@ class MechanicData() {
 }
 
 abstract class Mechanic(val name: String) {
-  abstract fun exec(sender: CommandSender, label: String, args: Array<out String>)
+  abstract fun exec(sender: CommandSender, label: String, args: List<String>)
 }
 
-class CmdGroupMechanic(name: String, cmd: String) : Mechanic(name) {
-  val cmds = cmd.split('\n').filter(String::isNotEmpty)
+class CmdGroupMechanic(name: String, cmd: String, mode: String?) : Mechanic(name) {
+  val cmds: List<String> = cmd.split('\n').filter(String::isNotEmpty)
+  val mode: String = (mode?:"default").lowercase()
 
-  override fun exec(sender: CommandSender, label: String, args: Array<out String>) {
+  override fun exec(sender: CommandSender, label: String, args: List<String>) {
     cmds.forEach {
       var processed = it
       processed = processed
+        .replace("\$mechanic", name)
         .replace("\$s", sender.name)
+        .replace("\$senderType", sender.javaClass.simpleName)
         .replace("\$sender", sender.name)
         .replace("\$isOp", sender.isOp.toString())
+        .replace("\$argc", args.size.toString())
+        .replace("\$cmd", label.lowercase())
+      args.forEachIndexed { i, a ->
+        processed.replace("\$arg$i", a)
+      }
       if (sender is Entity) {
         processed = processed
           .replace("\$uuid", sender.uniqueId.toString())
@@ -63,26 +75,43 @@ class CmdGroupMechanic(name: String, cmd: String) : Mechanic(name) {
           .replace("\$y", sender.block.x.toString())
           .replace("\$z", sender.block.x.toString())
       }
-      Bukkit.dispatchCommand(sender, processed);
+      when(mode) {
+        "console" ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), processed)
+        "op", "bypass", "operator" -> {
+          if(sender.isOp) Bukkit.dispatchCommand(sender, processed)
+          else {
+            sender.isOp = true
+            Bukkit.dispatchCommand(sender, processed)
+            sender.isOp = false
+          }
+        }
+        else -> Bukkit.dispatchCommand(sender, processed)
+      }
     }
   }
 }
 
 class JsMechanic(name: String, code: String) : Mechanic(name) {
-  val engine = getEngine()
-  val bindings = engine.createBindings()
-  val script = (engine as Compilable).compile(code)
+  val engine: ScriptEngine = getEngine()
+  val bindings: Bindings = engine.createBindings()
+  val script: CompiledScript = (engine as Compilable).compile(code)
 
-  override fun exec(sender: CommandSender, label: String, args: Array<out String>) {
+  override fun exec(sender: CommandSender, label: String, args: List<String>) {
     bindings.putAll(
       arrayOf(
+        "\$mechanic" to name,
         "\$s" to sender,
         "\$sender" to sender,
         "\$isOp" to sender.isOp,
-        "\$senderType" to sender.javaClass.simpleName,
+        "\$senderType" to sender.javaClass,
         "\$cmd" to label.lowercase(),
+        "\$args" to args,
+        "\$argc" to args.size,
       )
     )
+    args.forEachIndexed { i, a ->
+      bindings["\$arg$i"] = a
+    }
     if (sender is Entity) {
       bindings.putAll(
         arrayOf(

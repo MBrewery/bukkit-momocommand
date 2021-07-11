@@ -1,5 +1,7 @@
 # 是否自动检测文件修改并重载对应的脚本
-live-reload: yes
+livereload: yes
+# 如果自动重载, 检测间隔时间是多少? (单位: 秒)
+livereloadDelay: 15
 
 # 提示信息
 # 请用 § 作为颜色符号
@@ -8,3 +10,6 @@ messages:
   not-enough-args: "§aMomoCommand §9>> §c参数不够! 使用 /mcmd help 获取帮助"
   invalid-args: "§aMomoCommand §9>> §c参数错误! 使用 /mcmd help 获取帮助"
   executing-mechanic: "§aMomoCommand §9>> §a正在执行机制 §e$mechanic"
+  executed-successfully: "§aMomoCommand §9>> §a机制执行成功"
+  reloaded-successfully: "§aMomoCommand §9>> §a插件重载成功"
+  unknown-mechanic: "§aMomoCommand §9>> §c未找到机制 §e$mechanic"

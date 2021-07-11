@@ -20,6 +20,9 @@
     say hello, world
     say hello, $s
   type: cmdgroup
+  # 用来发送这些命令的人
+  # 不填写
+  sender: op
 -
   text: |
     print("whooooha!")
@@ -28,3 +31,26 @@
     print("you are executing command " + $cmd + "!")
   name: another
   type: javascript
+- # 示例: 使用参数的 mechanic
+  # 你可以访问 $args 变量(一个字符串数组), 也可以访问 $arg索引, 如第一个参数是 $arg0 变量
+  # 千万注意哦! 参数的索引从 0 开始
+  name: argmec
+  type: javascript
+  text: |
+    if($args.length > 0) {
+      $s.sendMessage("you executed this command with " + $argc + " args.")
+      var s = "args:"
+      for(var i = 0; i < $args.length; ++i){
+        s = s + " " + $args[i]
+      }
+      $s.sendMessage(s)
+      $s.sendMessage("the first argument is: " + $arg0)
+    } else {
+      $sender.sendMessage("you executed this command without args")
+    }
+-
+  name: argcmdmec
+  type: cmdgroup
+  sender: console
+  text: |
+    say $arg0

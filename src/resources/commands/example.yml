@@ -15,3 +15,7 @@
   name: another
   mechanics:
     - another
+-
+  name: argumented
+  mechanics:
+    - argmec

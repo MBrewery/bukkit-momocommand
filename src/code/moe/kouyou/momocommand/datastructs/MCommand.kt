@@ -11,7 +11,7 @@ class MCommandData() {
   var permission: String? = null
   lateinit var mechanics: MutableList<String>
   fun toMCommand(): MCommand {
-    return MCommand(name, permission, aliases, mechanics.map { MechanicManager.mechanics[it]!! })
+    return MCommand(name, permission, aliases?:mutableListOf(), mechanics.map { MechanicManager.mechanics[it.lowercase()]!! })
   }
 }
 
@@ -27,7 +27,7 @@ class MCommand(val cmdLabel: String, val perm: String?, val alias: MutableList<S
         }
       }
     }
-    mechanics.forEach { it.exec(sender, label!!, args!!) }
+    mechanics.forEach { it.exec(sender, label!!, args!!.filter { it.isNotBlank() }) }
     return true
   }
 }
