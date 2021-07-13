@@ -2,7 +2,7 @@ package moe.kouyou.momocommand
 
 import moe.kouyou.momocommand.livereload.ReloadTask
 import moe.kouyou.momocommand.utils.registerCommand
-import org.bukkit.Bukkit
+import org.bstats.bukkit.Metrics
 import org.bukkit.plugin.java.JavaPlugin
 
 lateinit var pluginInst: MomoCommand
@@ -10,6 +10,7 @@ lateinit var pluginInst: MomoCommand
 class MomoCommand : JavaPlugin() {
 
   override fun onEnable() {
+    Metrics(this, 12023)
     pluginInst = this
     registerCommands()
     reload()
