@@ -44,7 +44,7 @@ class CmdGroupMechanic(name: String, cmd: String, mode: String?) : Mechanic(name
         .replace("\$argc", args.size.toString())
         .replace("\$cmd", label.lowercase())
       args.forEachIndexed { i, a ->
-        processed.replace("\$arg$i", a)
+        processed = processed.replace("\$arg$i", a)
       }
       if (sender is Entity) {
         processed = processed
