@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'moe.kouyou'
-version '1.0.3'
+version '1.0.4'
 
 archivesBaseName = 'momo-command'
 
@@ -17,6 +17,7 @@ repositories {
 dependencies {
   implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.20'
   implementation 'org.bstats:bstats-bukkit:2.2.1'
+  implementation 'org.bstats:bstats-base:2.2.1'
   compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
 }
 
@@ -35,6 +36,7 @@ shadowJar {
   dependencies {
     include dependency('org.jetbrains.kotlin:kotlin-stdlib:1.5.20')
     include dependency('org.bstats:bstats-bukkit:2.2.1')
+    include dependency('org.bstats:bstats-base:2.2.1')
   }
   relocate 'org.bstats', '__momolib.command.bstats'
   relocate 'kotlin', '__momolib.command.ktstd'
