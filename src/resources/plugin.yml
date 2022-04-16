@@ -1,5 +1,6 @@
 name: MomoCommand
 main: moe.kouyou.momocommand.MomoCommand
-version: 1.0.2
+version: 1.0.5
 author: kouyoux
 description: a powerful custom command plugin
+softdepend: [PlaceholderAPI]

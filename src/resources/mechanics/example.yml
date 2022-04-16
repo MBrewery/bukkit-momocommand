@@ -21,7 +21,7 @@
     say hello, $s
   type: cmdgroup
   # 用来发送这些命令的人
-  # 不填写
+  # 不填写则默认为玩家 op则具有op权限执行 console则用控制台执行
   sender: op
 -
   text: |
@@ -54,3 +54,20 @@
   sender: console
   text: |
     say $arg0
+
+-
+  name: papi0
+  type: cmdgroup
+  sender: op
+  # 使用%变量%来调用papi变量
+  text: |
+    say %server_name%
+    
+
+-
+  name: papi1
+  type: javascript
+  sender: op
+  # 在javascript里，使用papi("%变量%")来调用papi变量
+  text: |
+    $s.sendMessage(papi("%server_name%"))

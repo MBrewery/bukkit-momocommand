@@ -1,10 +1,10 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.5.20'
+  id 'org.jetbrains.kotlin.jvm' version '1.6.20'
   id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
 group 'moe.kouyou'
-version '1.0.4'
+version '1.0.5'
 
 archivesBaseName = 'momo-command'
 
@@ -12,13 +12,18 @@ repositories {
   mavenLocal()
   maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
   maven { url 'https://hub.spigotmc.org/nexus/content/repositories/public/' }
+  maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
 }
 
 dependencies {
-  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.20'
-  implementation 'org.bstats:bstats-bukkit:2.2.1'
-  implementation 'org.bstats:bstats-base:2.2.1'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.20'
+  implementation 'org.bstats:bstats-bukkit:3.0.0'
+  implementation 'org.bstats:bstats-base:3.0.0'
+  implementation 'org.mozilla:rhino-engine:1.7.14'
+  implementation 'org.mozilla:rhino-runtime:1.7.14'
+  implementation 'org.mozilla:rhino:1.7.14'
   compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+  compileOnly 'me.clip:placeholderapi:2.11.1'
 }
 
 sourceSets {
@@ -34,9 +39,12 @@ sourceSets {
 
 shadowJar {
   dependencies {
-    include dependency('org.jetbrains.kotlin:kotlin-stdlib:1.5.20')
-    include dependency('org.bstats:bstats-bukkit:2.2.1')
-    include dependency('org.bstats:bstats-base:2.2.1')
+    include dependency('org.jetbrains.kotlin:kotlin-stdlib:1.6.20')
+    include dependency('org.bstats:bstats-bukkit:3.0.0')
+    include dependency('org.bstats:bstats-base:3.0.0')
+    include dependency('org.mozilla:rhino-engine:1.7.14')
+    include dependency('org.mozilla:rhino-runtime:1.7.14')
+    include dependency('org.mozilla:rhino:1.7.14')
   }
   relocate 'org.bstats', '__momolib.command.bstats'
   relocate 'kotlin', '__momolib.command.ktstd'

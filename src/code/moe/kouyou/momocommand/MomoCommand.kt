@@ -1,6 +1,7 @@
 package moe.kouyou.momocommand
 
 import moe.kouyou.momocommand.livereload.ReloadTask
+import moe.kouyou.momocommand.utils.getEngine
 import moe.kouyou.momocommand.utils.registerCommand
 import org.bstats.bukkit.Metrics
 import org.bukkit.plugin.java.JavaPlugin
@@ -23,6 +24,7 @@ class MomoCommand : JavaPlugin() {
   }
 
   fun reload() {
+    logger.info("Test javascript module: ${getEngine()::class.java.canonicalName}")
     if(!dataFolder.exists()) dataFolder.mkdirs()
     ConfigManager.loadConfig()
     MechanicManager.loadMechanics()
