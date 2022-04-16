@@ -1,9 +1,14 @@
 package moe.kouyou.momocommand.datastructs
 
+import me.clip.placeholderapi.PlaceholderAPI
 import moe.kouyou.momocommand.utils.getEngine
 import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.entity.*
+import org.mozilla.javascript.BaseFunction
+import org.mozilla.javascript.Callable
+import org.mozilla.javascript.Context
+import org.mozilla.javascript.Scriptable
 import javax.script.Bindings
 import javax.script.Compilable
 import javax.script.CompiledScript
@@ -65,7 +70,8 @@ class CmdGroupMechanic(name: String, cmd: String, mode: String?) : Mechanic(name
               .replace("\$displayName", sender.displayName)
               .replace("\$level", sender.level.toString())
               .replace("\$food", sender.foodLevel.toString())
-          }
+            processed = PlaceholderAPI.setPlaceholders(sender, processed)
+          } else processed = PlaceholderAPI.setPlaceholders(null, processed)
         }
       } else if (sender is BlockCommandSender) {
         processed = processed
@@ -99,6 +105,7 @@ class JsMechanic(name: String, code: String) : Mechanic(name) {
   override fun exec(sender: CommandSender, label: String, args: List<String>) {
     bindings.putAll(
       arrayOf(
+        "papi" to PapiHook(sender as? Player),
         "\$mechanic" to name,
         "\$s" to sender,
         "\$sender" to sender,
@@ -157,4 +164,11 @@ class JsMechanic(name: String, code: String) : Mechanic(name) {
     }
     script.eval(bindings)
   }
+}
+
+class PapiHook(val p: Player?) : java.util.function.Function<String, String>, BaseFunction() {
+  override fun call(cx: Context?, scope: Scriptable?, thisObj: Scriptable?, args: Array<out Any>?) =
+    (args?.get(0) as? String)?.let { PlaceholderAPI.setPlaceholders(p, it) } ?: ""
+
+  override fun apply(p1: String) = PlaceholderAPI.setPlaceholders(p, p1)
 }
