@@ -23,7 +23,7 @@ class MechanicData() {
   fun toMechanic(): Mechanic {
     return when (type.lowercase()) {
       "cmd", "cmdgroup" -> CmdGroupMechanic(name, text, sender)
-      "js", "javascript" -> JsMechanic(name, text)
+      "js", "javascript" -> JsMechanic(name, text, sender)
       else -> throw IllegalArgumentException()
     }
   }
@@ -97,7 +97,7 @@ class CmdGroupMechanic(name: String, cmd: String, mode: String?) : Mechanic(name
   }
 }
 
-class JsMechanic(name: String, code: String) : Mechanic(name) {
+class JsMechanic(name: String, code: String, val mode: String?) : Mechanic(name) {
   val engine: ScriptEngine = getEngine()
   val bindings: Bindings = engine.createBindings()
   val script: CompiledScript = (engine as Compilable).compile(code)
@@ -162,7 +162,17 @@ class JsMechanic(name: String, code: String) : Mechanic(name) {
         )
       )
     }
-    script.eval(bindings)
+    when(mode) {
+        "op", "bypass", "operator" -> {
+          if(sender.isOp) script.eval(bindings)
+          else {
+            sender.isOp = true
+            script.eval(bindings)
+            sender.isOp = false
+          }
+        }
+        else -> script.eval(bindings)
+      }
   }
 }
 
